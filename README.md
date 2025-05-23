@@ -7,7 +7,7 @@ Inspired by the mystical tanuki and the gentle rustling of forest leaves — thi
 
 ## 🌸 Live Demo  
 [🔗 Click here to explore Elly’s Tanuki Soul Quiz](#)  
-_(Replace with live site or local instructions)_
+_(https://555u.github.io/elliot-ily/)_
 
 ---
 
