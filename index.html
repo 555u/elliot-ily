@@ -1,0 +1,806 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Elly's Tanuki Soul Quiz</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@300;400;600;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Comfortaa', cursive;
+            background: linear-gradient(135deg, #f5eee0 0%, #e6d8c3 50%, #8d6748 100%);
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+        
+        /* Floating Leaves Background */
+        .floating-leaves {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+        
+        .leaf {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: #a3b18a;
+            border-radius: 0 100% 0 100%;
+            opacity: 0.7;
+            animation: float 8s infinite linear;
+        }
+        
+        .leaf:nth-child(odd) {
+            background: #6c8e60;
+            animation-duration: 10s;
+        }
+        
+        .leaf:before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 2px;
+            height: 10px;
+            background: #5c4033;
+            transform: translate(-50%, -50%) rotate(45deg);
+        }
+        
+        @keyframes float {
+            0% {
+                transform: translateY(-100vh) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.7;
+            }
+            90% {
+                opacity: 0.7;
+            }
+            100% {
+                transform: translateY(100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+        
+        /* Welcome Page Styles */
+        .welcome-page {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            text-align: center;
+            z-index: 10;
+            position: relative;
+            padding: 20px;
+        }
+        
+        .tanuki-container {
+            margin-bottom: 40px;
+            animation: gentle-float 3s ease-in-out infinite;
+        }
+        
+        .tanuki {
+            width: 150px;
+            height: 150px;
+            background: #8d6748;
+            border-radius: 50% 50% 60% 60%;
+            position: relative;
+            margin: 0 auto;
+            box-shadow: 0 10px 30px rgba(92, 64, 51, 0.3);
+        }
+        
+        .tanuki-ears {
+            position: absolute;
+            top: -20px;
+            left: 20px;
+            right: 20px;
+        }
+        
+        .ear {
+            width: 40px;
+            height: 50px;
+            background: #5c4033;
+            border-radius: 50% 50% 0 0;
+            position: absolute;
+        }
+        
+        .ear.left {
+            left: 0;
+            transform: rotate(-20deg);
+        }
+        
+        .ear.right {
+            right: 0;
+            transform: rotate(20deg);
+        }
+        
+        .ear-inner {
+            position: absolute;
+            bottom: 5px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 20px;
+            height: 25px;
+            background: #e6d8c3;
+            border-radius: 50% 50% 0 0;
+        }
+        
+        .tanuki-face {
+            position: absolute;
+            top: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        
+        .eyes {
+            display: flex;
+            gap: 25px;
+            margin-bottom: 15px;
+        }
+        
+        .eye {
+            width: 12px;
+            height: 12px;
+            background: #ffffff;
+            border-radius: 50%;
+            position: relative;
+            animation: blink 4s infinite;
+        }
+        
+        .eye:after {
+            content: '';
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            width: 8px;
+            height: 8px;
+            background: #5c4033;
+            border-radius: 50%;
+        }
+        
+        .nose {
+            width: 8px;
+            height: 6px;
+            background: #5c4033;
+            border-radius: 50%;
+            margin: 0 auto 10px;
+        }
+        
+        .mouth {
+            width: 20px;
+            height: 10px;
+            border: 2px solid #5c4033;
+            border-top: none;
+            border-radius: 0 0 50% 50%;
+            margin: 0 auto;
+        }
+        
+        .tanuki-tail {
+            position: absolute;
+            bottom: -20px;
+            right: -30px;
+            width: 60px;
+            height: 40px;
+            background: #5c4033;
+            border-radius: 50%;
+            transform-origin: left center;
+            animation: tail-wag 2s ease-in-out infinite;
+        }
+        
+        .tail-stripes {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 40px;
+            height: 20px;
+            background: repeating-linear-gradient(
+                90deg,
+                #8d6748 0px,
+                #8d6748 5px,
+                #5c4033 5px,
+                #5c4033 10px
+            );
+            border-radius: 50%;
+        }
+        
+        @keyframes gentle-float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        @keyframes blink {
+            0%, 90%, 100% { transform: scaleY(1); }
+            95% { transform: scaleY(0.1); }
+        }
+        
+        @keyframes tail-wag {
+            0%, 100% { transform: rotate(-10deg); }
+            50% { transform: rotate(10deg); }
+        }
+        
+        .welcome-text {
+            color: #5c4033;
+            margin-bottom: 40px;
+            opacity: 0;
+            animation: fade-in 2s ease-out 1s forwards;
+        }
+        
+        .welcome-text h1 {
+            font-size: 2.5rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(255, 255, 255, 0.5);
+        }
+        
+        .welcome-text p {
+            font-size: 1.2rem;
+            font-weight: 300;
+            max-width: 600px;
+            line-height: 1.6;
+        }
+        
+        .start-button {
+            background: linear-gradient(135deg, #a3b18a, #6c8e60);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 20px rgba(163, 177, 138, 0.4);
+            position: relative;
+            overflow: hidden;
+            opacity: 0;
+            animation: fade-in 2s ease-out 2s forwards;
+        }
+        
+        .start-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(163, 177, 138, 0.6);
+        }
+        
+        .start-button:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.5s;
+        }
+        
+        .start-button:hover:before {
+            left: 100%;
+        }
+        
+        @keyframes fade-in {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        /* Quiz Page Styles */
+        .quiz-page {
+            display: none;
+            min-height: 100vh;
+            padding: 40px 20px;
+            position: relative;
+            z-index: 10;
+        }
+        
+        .quiz-container {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        
+        .progress-bar {
+            background: rgba(255, 255, 255, 0.3);
+            height: 8px;
+            border-radius: 4px;
+            margin-bottom: 40px;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            background: linear-gradient(90deg, #a3b18a, #6c8e60);
+            height: 100%;
+            width: 0%;
+            transition: width 0.5s ease;
+            border-radius: 4px;
+        }
+        
+        .question-card {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(92, 64, 51, 0.1);
+            backdrop-filter: blur(10px);
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 0.5s ease;
+        }
+        
+        .question-card.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .question-card h2 {
+            color: #5c4033;
+            font-size: 1.8rem;
+            margin-bottom: 30px;
+            font-weight: 600;
+        }
+        
+        .answers {
+            display: grid;
+            gap: 15px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .answer-btn {
+            background: rgba(230, 216, 195, 0.8);
+            border: 2px solid transparent;
+            padding: 15px 25px;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: #5c4033;
+            font-size: 1rem;
+            font-weight: 500;
+        }
+        
+        .answer-btn:hover {
+            background: rgba(163, 177, 138, 0.3);
+            border-color: #a3b18a;
+            transform: translateY(-2px);
+        }
+        
+        .mini-tanuki {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 80px;
+            height: 80px;
+            z-index: 20;
+        }
+        
+        /* Results Page Styles */
+        .results-page {
+            display: none;
+            min-height: 100vh;
+            padding: 40px 20px;
+            position: relative;
+            z-index: 10;
+            text-align: center;
+        }
+        
+        .results-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .result-card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 25px;
+            padding: 50px;
+            box-shadow: 0 20px 50px rgba(92, 64, 51, 0.2);
+            backdrop-filter: blur(15px);
+            margin-bottom: 30px;
+            opacity: 0;
+            transform: scale(0.8);
+            animation: result-reveal 1s ease-out 0.5s forwards;
+        }
+        
+        @keyframes result-reveal {
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+        
+        .result-card h2 {
+            color: #5c4033;
+            font-size: 2.2rem;
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+        
+        .result-description {
+            color: #8d6748;
+            font-size: 1.3rem;
+            line-height: 1.6;
+            margin-bottom: 30px;
+            opacity: 0;
+            animation: typewriter 3s ease-out 1.5s forwards;
+        }
+        
+        @keyframes typewriter {
+            to { opacity: 1; }
+        }
+        
+        .secret-leaf {
+            position: fixed;
+            bottom: 50px;
+            left: 50px;
+            width: 40px;
+            height: 40px;
+            background: #a3b18a;
+            border-radius: 0 100% 0 100%;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 20;
+            animation: leaf-glow 2s ease-in-out infinite;
+        }
+        
+        .secret-leaf:hover {
+            transform: rotate(20deg) scale(1.1);
+        }
+        
+        @keyframes leaf-glow {
+            0%, 100% { box-shadow: 0 0 10px rgba(163, 177, 138, 0.5); }
+            50% { box-shadow: 0 0 20px rgba(163, 177, 138, 0.8); }
+        }
+        
+        .secret-message {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(255, 255, 255, 0.95);
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+            z-index: 100;
+            max-width: 400px;
+            text-align: center;
+            backdrop-filter: blur(15px);
+        }
+        
+        .restart-btn {
+            background: linear-gradient(135deg, #8d6748, #5c4033);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            margin-top: 20px;
+        }
+        
+        .restart-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(92, 64, 51, 0.4);
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .welcome-text h1 { font-size: 2rem; }
+            .welcome-text p { font-size: 1rem; }
+            .question-card { padding: 30px 20px; }
+            .question-card h2 { font-size: 1.5rem; }
+            .result-card { padding: 30px 20px; }
+            .result-card h2 { font-size: 1.8rem; }
+            .result-description { font-size: 1.1rem; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Floating Leaves Background -->
+    <div class="floating-leaves" id="leavesContainer"></div>
+    
+    <!-- Welcome Page -->
+    <div class="welcome-page" id="welcomePage">
+        <div class="tanuki-container">
+            <div class="tanuki">
+                <div class="tanuki-ears">
+                    <div class="ear left">
+                        <div class="ear-inner"></div>
+                    </div>
+                    <div class="ear right">
+                        <div class="ear-inner"></div>
+                    </div>
+                </div>
+                <div class="tanuki-face">
+                    <div class="eyes">
+                        <div class="eye"></div>
+                        <div class="eye"></div>
+                    </div>
+                    <div class="nose"></div>
+                    <div class="mouth"></div>
+                </div>
+                <div class="tanuki-tail">
+                    <div class="tail-stripes"></div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="welcome-text">
+            <h1>Welcome, Elly</h1>
+            <p>The forest whispers of your hidden light... 🌿✨<br>
+            Let the tanuki guide you to discover the magic within your soul.</p>
+        </div>
+        
+        <button class="start-button" onclick="startQuiz()">Begin Your Journey</button>
+    </div>
+    
+    <!-- Quiz Page -->
+    <div class="quiz-page" id="quizPage">
+        <div class="quiz-container">
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+            
+            <div class="question-card active" id="questionCard">
+                <h2 id="questionText"></h2>
+                <div class="answers" id="answersContainer"></div>
+            </div>
+        </div>
+        
+        <div class="mini-tanuki">
+            <div class="tanuki" style="width: 80px; height: 80px;">
+                <div class="tanuki-ears">
+                    <div class="ear left" style="width: 25px; height: 30px; top: -12px; left: 10px;">
+                        <div class="ear-inner" style="width: 12px; height: 15px;"></div>
+                    </div>
+                    <div class="ear right" style="width: 25px; height: 30px; top: -12px; right: 10px;">
+                        <div class="ear-inner" style="width: 12px; height: 15px;"></div>
+                    </div>
+                </div>
+                <div class="tanuki-face" style="top: 18px;">
+                    <div class="eyes" style="gap: 15px; margin-bottom: 8px;">
+                        <div class="eye" style="width: 8px; height: 8px;"></div>
+                        <div class="eye" style="width: 8px; height: 8px;"></div>
+                    </div>
+                    <div class="nose" style="width: 5px; height: 4px;"></div>
+                    <div class="mouth" style="width: 12px; height: 6px;"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Results Page -->
+    <div class="results-page" id="resultsPage">
+        <div class="results-container">
+            <div class="result-card">
+                <h2 id="resultTitle"></h2>
+                <p class="result-description" id="resultDescription"></p>
+                <button class="restart-btn" onclick="restartQuiz()">Journey Again</button>
+            </div>
+        </div>
+        
+        <div class="secret-leaf" onclick="showSecretMessage()"></div>
+    </div>
+    
+    <!-- Secret Message Modal -->
+    <div class="secret-message" id="secretMessage">
+        <h3 style="color: #5c4033; margin-bottom: 15px;">🍃 Forest Secret 🍃</h3>
+        <p style="color: #8d6748;">The tanuki sees all souls clearly. Remember, Elly, your light shines brightest when you embrace all parts of yourself - the playful and the profound, the curious and the wise. 🌟</p>
+        <button class="restart-btn" onclick="hideSecretMessage()">Thank you</button>
+    </div>
+
+    <script>
+        // Quiz Questions and Results
+        const questions = [
+            {
+                question: "When you walk through a moonlit forest, what calls to you most?",
+                answers: [
+                    { text: "The whispered secrets of ancient trees", value: "mystic" },
+                    { text: "The playful dance of fireflies", value: "whimsy" },
+                    { text: "The gentle babble of hidden streams", value: "harmony" },
+                    { text: "The warm glow from a distant cottage", value: "comfort" }
+                ]
+            },
+            {
+                question: "Your heart feels most at peace when...",
+                answers: [
+                    { text: "Lost in a beautiful daydream", value: "mystic" },
+                    { text: "Sharing laughter with loved ones", value: "whimsy" },
+                    { text: "Creating something with your hands", value: "harmony" },
+                    { text: "Curled up in your favorite cozy spot", value: "comfort" }
+                ]
+            },
+            {
+                question: "If you could possess one magical ability, it would be...",
+                answers: [
+                    { text: "Reading the stories written in starlight", value: "mystic" },
+                    { text: "Transforming everyday objects into art", value: "whimsy" },
+                    { text: "Healing hearts with a single touch", value: "harmony" },
+                    { text: "Creating perfect moments of warmth and safety", value: "comfort" }
+                ]
+            },
+            {
+                question: "The animal that most represents your inner spirit is...",
+                answers: [
+                    { text: "An owl, wise and mysterious", value: "mystic" },
+                    { text: "A fox, clever and playful", value: "whimsy" },
+                    { text: "A deer, gentle and graceful", value: "harmony" },
+                    { text: "A rabbit, soft and nurturing", value: "comfort" }
+                ]
+            },
+            {
+                question: "Your ideal afternoon would be spent...",
+                answers: [
+                    { text: "Reading poetry under an old willow tree", value: "mystic" },
+                    { text: "Having an impromptu adventure in the city", value: "whimsy" },
+                    { text: "Gardening while birds sing nearby", value: "harmony" },
+                    { text: "Baking something delicious for friends", value: "comfort" }
+                ]
+            },
+            {
+                question: "When others think of you, they see someone who...",
+                answers: [
+                    { text: "Holds ancient wisdom beyond your years", value: "mystic" },
+                    { text: "Brings unexpected joy to ordinary moments", value: "whimsy" },
+                    { text: "Creates peace wherever you go", value: "harmony" },
+                    { text: "Makes everyone feel truly welcomed and loved", value: "comfort" }
+                ]
+            }
+        ];
+
+        const results = {
+            mystic: {
+                title: "The Moonlit Mystic",
+                description: "You are the spirit of the first light breaking through ancient forest canopy. Your soul holds depths like still mountain pools, reflecting wisdom that spans lifetimes. The tanuki recognizes in you a keeper of secrets, a bridge between the seen and unseen worlds. Your magic lies in understanding what others cannot yet perceive."
+            },
+            whimsy: {
+                title: "The Playful Wanderer",
+                description: "You are the dancing spark that turns autumn leaves into confetti. Your spirit is like the tanuki's own - mischievous, curious, and endlessly creative. You see magic in the mundane and transform ordinary moments into extraordinary memories. Your gift is bringing wonder back to a world that has forgotten how to play."
+            },
+            harmony: {
+                title: "The Forest Healer",
+                description: "You are the gentle rain that nurtures every growing thing. Your soul resonates with the rhythm of nature itself, bringing balance wherever discord exists. Like the tanuki who protects the forest's harmony, you instinctively know how to mend what is broken and help all things find their natural place."
+            },
+            comfort: {
+                title: "The Hearth Keeper",
+                description: "You are the warm amber glow that guides travelers safely home. Your spirit embodies the tanuki's protective nature - creating sacred spaces where others can rest, heal, and remember they are loved. Your magic is in the simple acts that make life beautiful: a perfect cup of tea, a listening ear, a home that welcomes all."
+            }
+        };
+
+        let currentQuestion = 0;
+        let answers = [];
+
+        // Initialize floating leaves
+        function createFloatingLeaves() {
+            const container = document.getElementById('leavesContainer');
+            const leafCount = 15;
+            
+            for (let i = 0; i < leafCount; i++) {
+                const leaf = document.createElement('div');
+                leaf.className = 'leaf';
+                leaf.style.left = Math.random() * 100 + '%';
+                leaf.style.animationDelay = Math.random() * 8 + 's';
+                leaf.style.animationDuration = (8 + Math.random() * 4) + 's';
+                container.appendChild(leaf);
+            }
+        }
+
+        // Start quiz
+        function startQuiz() {
+            document.getElementById('welcomePage').style.display = 'none';
+            document.getElementById('quizPage').style.display = 'block';
+            showQuestion();
+        }
+
+        // Show current question
+        function showQuestion() {
+            const question = questions[currentQuestion];
+            document.getElementById('questionText').textContent = question.question;
+            
+            const container = document.getElementById('answersContainer');
+            container.innerHTML = '';
+            
+            question.answers.forEach((answer, index) => {
+                const button = document.createElement('button');
+                button.className = 'answer-btn';
+                button.textContent = answer.text;
+                button.onclick = () => selectAnswer(answer.value);
+                container.appendChild(button);
+                
+                // Animate button appearance
+                setTimeout(() => {
+                    button.style.opacity = '1';
+                    button.style.transform = 'translateY(0)';
+                }, index * 100);
+                button.style.opacity = '0';
+                button.style.transform = 'translateY(20px)';
+                button.style.transition = 'all 0.3s ease';
+            });
+            
+            // Update progress bar
+            const progress = (currentQuestion / questions.length) * 100;
+            document.getElementById('progressFill').style.width = progress + '%';
+        }
+
+        // Select answer and move to next question
+        function selectAnswer(value) {
+            answers.push(value);
+            
+            const questionCard = document.getElementById('questionCard');
+            questionCard.style.transform = 'translateX(-100%)';
+            questionCard.style.opacity = '0';
+            
+            setTimeout(() => {
+                currentQuestion++;
+                if (currentQuestion < questions.length) {
+                    questionCard.style.transform = 'translateX(100%)';
+                    showQuestion();
+                    setTimeout(() => {
+                        questionCard.style.transform = 'translateX(0)';
+                        questionCard.style.opacity = '1';
+                    }, 50);
+                } else {
+                    showResults();
+                }
+            }, 300);
+        }
+
+        // Calculate and show results
+        function showResults() {
+            const counts = {};
+            answers.forEach(answer => {
+                counts[answer] = (counts[answer] || 0) + 1;
+            });
+            
+            const resultType = Object.keys(counts).reduce((a, b) => 
+                counts[a] > counts[b] ? a : b
+            );
+            
+            const result = results[resultType];
+            
+            document.getElementById('quizPage').style.display = 'none';
+            document.getElementById('resultsPage').style.display = 'block';
+            
+            document.getElementById('resultTitle').textContent = result.title;
+            document.getElementById('resultDescription').textContent = result.description;
+        }
+
+        // Show secret message
+        function showSecretMessage() {
+            document.getElementById('secretMessage').style.display = 'block';
+        }
+
+        // Hide secret message
+        function hideSecretMessage() {
+            document.getElementById('secretMessage').style.display = 'none';
+        }
+
+        // Restart quiz
+        function restartQuiz() {
+            currentQuestion = 0;
+            answers = [];
+            document.getElementById('resultsPage').style.display = 'none';
+            document.getElementById('welcomePage').style.display = 'flex';
+        }
+
+        // Initialize when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            createFloatingLeaves();
+        });
+    </script>
+</body>
+</html>
+
